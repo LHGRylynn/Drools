@@ -1,20 +1,20 @@
 package  com.ytooo.movie;
 dialect "java"
 
-import com.ytooo.bean.Movie ;
-import java.util.Arrays;
+import com.ytooo.model.Movie ;
+//import java.util.Arrays;
 import java.lang.System;
-global Double leastToTopMovie;
-global Double allMovieMeanScore ;
-
-global java.util.List  list;
+//global Double leastToTopMovie;
+//global Double allMovieMeanScore ;
+//
+//global java.util.List  list;
 
 //$movie : Movie(movieId != null)
 rule "getScore"
     when
       $p:  Movie()
     then
-        System.out.println($p.getWRScore());
+        System.out.println($p.CalcuWRScore());
         System.out.println("in movie rule");
 
     end;
@@ -30,7 +30,7 @@ rule "getScore"
 
 
 query   "getScoreMovie" ()
-    $p: Movie(WRScore>9)
+    $p: Movie(WRscore>9)
     end;
 
 
