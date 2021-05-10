@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.zip.DeflaterOutputStream;
+
 /**
  * created by kz on
  * @author 匡政
@@ -24,10 +26,37 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Movie {
-	private  static double  leastToTopMovie=50;
-	private static double allMovieMeanScore=3.328;
+	private  static double  leastToTopMovie=300;
+	private static double allMovieMeanScore=6.7663077745284665;
 
-	double WRscore;
+	public double getCalWRScore() {
+		return calWRScore;
+	}
+
+	public double getCalIncome(){
+		double dincome;
+		double dbudget;
+		try{
+			dincome= Double.parseDouble(revenue);
+			dbudget=Double.parseDouble(budget);
+		}catch (Exception e){
+			return 0;
+		}
+		return dincome-dbudget;
+	}
+	public boolean isFavorite(){
+		if(favorityLanguage.isFavorite(originalLanguage)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public void setCalWRScore(double calWRScore) {
+		this.calWRScore = calWRScore;
+	}
+
+	double calWRScore=100;
 	public double CalcuWRScore(){
 		double dvoteCount,dvoteAverage;
 		try{
@@ -38,8 +67,18 @@ public class Movie {
 			dvoteAverage=0;
 			dvoteCount=0;
 		}
-		WRscore=dvoteCount*dvoteAverage/(dvoteCount+leastToTopMovie)+leastToTopMovie*allMovieMeanScore/(dvoteCount+leastToTopMovie);
-		return WRscore;
+		calWRScore=dvoteCount*dvoteAverage/(dvoteCount+leastToTopMovie)+leastToTopMovie*allMovieMeanScore/(dvoteCount+leastToTopMovie);
+		return calWRScore;
+	}
+
+	public double getCalPopu(){
+		double dpopu;
+		try {
+			dpopu=Double.parseDouble(popularity);
+		}catch (Exception e){
+			return 0;
+		}
+		return dpopu;
 	}
 
 	@CsvBindByName(column = "budget")
@@ -67,7 +106,7 @@ public class Movie {
 	String productionCountries;
 
 	@CsvBindByName(column = "release_date")
-	String releaseDate;
+	double releaseDate;
 
 	@CsvBindByName(column = "revenue")
 	String revenue;
@@ -101,13 +140,7 @@ public class Movie {
 	String director;
 
 
-	public double getWRscore() {
-		return WRscore;
-	}
 
-	public void setWRscore(double WRscore) {
-		this.WRscore = WRscore;
-	}
 
 	public String getBudget() {
 		return budget;
@@ -173,11 +206,11 @@ public class Movie {
 		this.productionCountries = productionCountries;
 	}
 
-	public String getReleaseDate() {
+	public double getReleaseDate() {
 		return releaseDate;
 	}
 
-	public void setReleaseDate(String releaseDate) {
+	public void setReleaseDate(double releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 

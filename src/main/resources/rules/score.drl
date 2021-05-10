@@ -4,13 +4,17 @@ dialect "java"
 import com.ytooo.model.Movie ;
 //import java.util.Arrays;
 import java.lang.System;
-//global Double leastToTopMovie;
-//global Double allMovieMeanScore ;
-//
-//global java.util.List  list;
+import java.lang.Double;
+import com.ytooo.model.Popularity;
+import com.ytooo.model.InCome;
+import com.ytooo.model.favorityLanguage;
+import com.ytooo.model.YearBnous;
 
-//$movie : Movie(movieId != null)
+import com.ytooo.model.*;
+
 rule "getScore"
+    salience 99
+
     when
       $p:  Movie()
     then
@@ -19,30 +23,108 @@ rule "getScore"
     end;
 
 
+rule "pupularityScoreFirst"
+    salience 98
+    when
+      $s:  Movie(getCalPopu()>Popularity.first)
+    then
+
+        $s.setCalWRScore($s.getCalWRScore()+Popularity.getFirstBonus());
+        System.out.println("已为"+$s.getId()+"热度加分");
+    end;
+
+rule "pupularityScoreSecond"
+    salience 98
+    when
+      $s:  Movie(getCalPopu()>Popularity.second&&getCalPopu()<Popularity.first)
+    then
+        $s.setCalWRScore($s.getCalWRScore()+Popularity.getSecondBonus());
+        System.out.println("已为"+$s.getId()+"通过热度加分");
+    end;
 
 
 
-//rule "fil"
+rule "incomeScoreFirst"
+    salience 97
+    when
+      $s:  Movie(getCalIncome()>InCome.first)
+    then
+        $s.setCalWRScore($s.getCalWRScore()+InCome.getSecondBonus());
+        System.out.println("已为"+$s.getId()+"通过收入加分");
+    end;
+
+rule "incomeScoreSecond"
+    salience 97
+    when
+      $s:  Movie(getCalIncome()>InCome.second&&getCalIncome()<InCome.first)
+    then
+        $s.setCalWRScore($s.getCalWRScore()+InCome.getSecondBonus());
+        System.out.println("已为"+$s.getId()+"通过热度加分");
+    end;
+
+
+rule "incomeScoreThird"
+    salience 97
+
+    when
+      $s:  Movie(getCalIncome()>InCome.third&&getCalIncome()<InCome.second)
+    then
+        $s.setCalWRScore($s.getCalWRScore()+InCome.getThirdBonus());
+        System.out.println("已为"+$s.getId()+"通过热度加分");
+    end;
+
+
+
+
+
+
+
+
+rule "yearScore1"
+    salience 95
+    when
+      $s:  Movie(releaseDate<YearBnous.first)
+    then
+        $s.setCalWRScore($s.getCalWRScore()+YearBnous.getFirstBonus());
+        System.out.println("已为"+$s.getId()+"通过年份加分");
+    end;
+
+rule "yearScore2"
+    salience 95
+    when
+      $s:  Movie(releaseDate>YearBnous.first&&releaseDate<YearBnous.second)
+    then
+        $s.setCalWRScore($s.getCalWRScore()+YearBnous.getSecondBonus());
+        System.out.println("已为"+$s.getId()+"通过年份加分");
+    end;
+
+rule "yearScore5"
+    salience 95
+    when
+      $s:  Movie(releaseDate>YearBnous.second&&releaseDate<YearBnous.third)
+    then
+        $s.setCalWRScore($s.getCalWRScore()+YearBnous.getThirdBonus());
+        System.out.println("已为"+$s.getId()+"通过年份加分");
+    end;
+
+
+
+
+
+
+
+
+//rule "languageScore"
+//    salience 96
 //    when
-//      $p:  Movie()
+//      $s:  Movie( isFavorite())
 //    then
-//        System.out.print($p.getWRScore());
-//        System.out.print("in movie rule");
-//
+//        $s.setCalWRScore($s.getCalWRScore()+favorityLanguage.langBonus);
+//        System.out.println("已为"+$s.getId()+"通过语言加分");
 //    end;
-
-
-
-
-
-
-
-
-
-
-
 query   "getScoreMovie"
-    $p: Movie(WRscore>5)
+
+    $t: Movie(calWRScore > 5)
     end;
 
 
@@ -57,14 +139,14 @@ query   "getScoreMovie"
 
 
 
-query   "getScoreMovieAbove0" ()
-    //System.out.println("0");
-    $p: Movie(WRscore>0)
-    end;
-
-query   "getScoreMovieAbove9" ()
-    $p: Movie(WRscore>9)
-    end;
+//query   "getScoreMovieAbove0" ()
+//    //System.out.println("0");
+//    $p: Movie(WRscore>0)
+//    end;
+//
+//query   "getScoreMovieAbove9" ()
+//    $p: Movie(WRscore>9)
+//    end;
 
 
 //query   "getScoreMovieByCountry" (String $country)
