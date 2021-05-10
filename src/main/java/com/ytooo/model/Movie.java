@@ -9,33 +9,60 @@ import lombok.NoArgsConstructor;
  * created by kz on
  * @author 匡政
  */
+
+//popularity
+//时间
+//演员
+//导演
+
+
+//票房-预算
+//
+
+//
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Movie {
 	private  static double  leastToTopMovie=50;
 	private static double allMovieMeanScore=3.328;
+
 	double WRscore;
 	public double CalcuWRScore(){
-		WRscore=(voteCount)*voteAverage/(voteCount+leastToTopMovie)+(leastToTopMovie)*allMovieMeanScore/(voteCount+leastToTopMovie);
+		double dvoteCount,dvoteAverage;
+		try{
+			dvoteAverage=Double.parseDouble(voteAverage);
+			dvoteCount=Double.parseDouble(voteCount);
+		}catch (Exception e){
+			System.out.println("wrong"+id+"\t"+voteAverage+"\t"+voteCount);
+			dvoteAverage=0;
+			dvoteCount=0;
+		}
+		WRscore=dvoteCount*dvoteAverage/(dvoteCount+leastToTopMovie)+leastToTopMovie*allMovieMeanScore/(dvoteCount+leastToTopMovie);
 		return WRscore;
 	}
+
 	@CsvBindByName(column = "budget")
-	int	budget;
+	String	budget;
+
 	@CsvBindByName(column = "genres")
 	String genres;
+
 	@CsvBindByName(column = "id")
-    int id;
+    String id;
 
 	@CsvBindByName(column = "original_language")
     String originalLanguage;
+
 	@CsvBindByName(column = "original_title")
 	String originalTitle;
 
 	@CsvBindByName(column = "popularity")
     String popularity;
+
 	@CsvBindByName(column = "production_companies")
 	String productionCompanies;
+
 	@CsvBindByName(column = "production_countries")
 	String productionCountries;
 
@@ -43,10 +70,10 @@ public class Movie {
 	String releaseDate;
 
 	@CsvBindByName(column = "revenue")
-	int revenue;
+	String revenue;
 
 	@CsvBindByName(column = "runtime")
-	int runtime;
+	String runtime;
 
 	@CsvBindByName(column = "spoken_languages")
 
@@ -62,16 +89,31 @@ public class Movie {
 
 
 	@CsvBindByName(column = "vote_average")
-	double voteAverage;
+	String voteAverage;
 
 	@CsvBindByName(column = "vote_count")
-	int voteCount;
+	String voteCount;
 
-	public int getBudget() {
+	@CsvBindByName(column = "cast")
+	String cast;
+
+	@CsvBindByName(column = "director")
+	String director;
+
+
+	public double getWRscore() {
+		return WRscore;
+	}
+
+	public void setWRscore(double WRscore) {
+		this.WRscore = WRscore;
+	}
+
+	public String getBudget() {
 		return budget;
 	}
 
-	public void setBudget(int budget) {
+	public void setBudget(String budget) {
 		this.budget = budget;
 	}
 
@@ -83,11 +125,11 @@ public class Movie {
 		this.genres = genres;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -139,19 +181,19 @@ public class Movie {
 		this.releaseDate = releaseDate;
 	}
 
-	public int getRevenue() {
+	public String getRevenue() {
 		return revenue;
 	}
 
-	public void setRevenue(int revenue) {
+	public void setRevenue(String revenue) {
 		this.revenue = revenue;
 	}
 
-	public int getRuntime() {
+	public String getRuntime() {
 		return runtime;
 	}
 
-	public void setRuntime(int runtime) {
+	public void setRuntime(String runtime) {
 		this.runtime = runtime;
 	}
 
@@ -179,26 +221,35 @@ public class Movie {
 		this.title = title;
 	}
 
-	public double getVoteAverage() {
+	public String getVoteAverage() {
 		return voteAverage;
 	}
 
-	public void setVoteAverage(double voteAverage) {
+	public void setVoteAverage(String voteAverage) {
 		this.voteAverage = voteAverage;
 	}
 
-	public int getVoteCount() {
+	public String getVoteCount() {
 		return voteCount;
 	}
 
-	public void setVoteCount(int voteCount) {
+	public void setVoteCount(String voteCount) {
 		this.voteCount = voteCount;
 	}
 
-//	@CsvBindByName(column = "cast")
-//	String cast;
-//
-//	@CsvBindByName(column = "director")
-//	String director;
+	public String getCast() {
+		return cast;
+	}
 
+	public void setCast(String cast) {
+		this.cast = cast;
+	}
+
+	public String getDirector() {
+		return director;
+	}
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
 }

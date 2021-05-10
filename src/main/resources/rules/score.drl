@@ -16,8 +16,11 @@ rule "getScore"
     then
         System.out.println($p.CalcuWRScore());
         System.out.println("in movie rule");
-
     end;
+
+
+
+
 
 //rule "fil"
 //    when
@@ -29,7 +32,37 @@ rule "getScore"
 //    end;
 
 
-query   "getScoreMovie" ()
+
+
+
+
+
+
+
+
+
+query   "getScoreMovie"
+    $p: Movie(WRscore>5)
+    end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+query   "getScoreMovieAbove0" ()
+    //System.out.println("0");
+    $p: Movie(WRscore>0)
+    end;
+
+query   "getScoreMovieAbove9" ()
     $p: Movie(WRscore>9)
     end;
 

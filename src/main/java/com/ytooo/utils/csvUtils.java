@@ -40,8 +40,8 @@ public class csvUtils {
         strategy.setType(clazz);
 
         CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(fr)
-                .withSeparator(',')
-                .withQuoteChar('\'')
+                .withSeparator(';')
+                .withQuoteChar('\"')
                 .withMappingStrategy(strategy).build();
         return csvToBean.parse();
     }
