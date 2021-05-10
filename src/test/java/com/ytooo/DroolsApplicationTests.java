@@ -1,17 +1,24 @@
 package com.ytooo;
 
-import com.ytooo.bean.Animal;
-import com.ytooo.bean.Cat;
-import com.ytooo.bean.People;
-import com.ytooo.bean.Sensor;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.HeaderColumnNameMappingStrategy;
+import com.thoughtworks.xstream.core.BaseException;
+import com.ytooo.bean.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.QueryResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +28,33 @@ class DroolsApplicationTests {
 
     @Autowired
     private KieSession session;
+
+
+    @Test
+    public void redsCsv() throws IOException {
+        File file=new File("src/main/java/resources/a.csv");
+
+
+    }
+
+
+
+
+    @Test
+    public  void getScore(){
+        Movie movie=new Movie();
+        movie.setMovieId("123");
+        movie.setMeanscore(8.99);
+        movie.setVoteNumber(2000);
+        session.insert(movie);
+        session.fireAllRules();
+
+
+        QueryResults results = session.getQueryResults( "getScoreMovie" );
+        System.out.println( "we have " + results.size() + " movie WRscore above  2" );
+
+    }
+
 
     @Test
     public void people() {
