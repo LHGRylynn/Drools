@@ -1,0 +1,39 @@
+package  com.ytooo.movie;
+dialect "java"
+
+import com.ytooo.bean.Movie ;
+import java.util.Arrays;
+import java.lang.System;
+global Double leastToTopMovie;
+global Double allMovieMeanScore ;
+
+global java.util.List  list;
+
+//$movie : Movie(movieId != null)
+rule "getScore"
+    when
+      $p:  Movie()
+    then
+        System.out.println($p.getWRScore());
+        System.out.println("in movie rule");
+
+    end;
+
+//rule "fil"
+//    when
+//      $p:  Movie()
+//    then
+//        System.out.print($p.getWRScore());
+//        System.out.print("in movie rule");
+//
+//    end;
+
+
+query   "getScoreMovie" ()
+    $p: Movie(WRScore>9)
+    end;
+
+
+//query   "getScoreMovieByCountry" (String $country)
+//    $p: Movie(WRScore>2 && country==$country)
+//    end;

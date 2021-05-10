@@ -5,6 +5,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.thoughtworks.xstream.core.BaseException;
 import com.ytooo.bean.*;
+import com.ytooo.utils.csvUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -29,12 +30,18 @@ class DroolsApplicationTests {
     @Autowired
     private KieSession session;
 
+    @Autowired
+    private csvUtils csvReader;
 
     @Test
     public void redsCsv() throws IOException {
-        File file=new File("src/main/java/resources/a.csv");
+        File file=new File("src/main/resources/movies_metadata.csv");
+        List<com.ytooo.model.Movie> data=csvReader.getCsvData(file,com.ytooo.model.Movie.class);
+        for (com.ytooo.model.Movie xx:data
+             ) {
 
-
+            session.insert(xx);
+        }
     }
 
 
